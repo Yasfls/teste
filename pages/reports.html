@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senac Dash - Relatórios</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="images/senac-logo.png" alt="Logo Senac">
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="reports.html" class="active">Relatórios</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="main-header">
+                <h1 class="page-title">Relatórios</h1>
+                <div class="user-info">
+                    <span id="userName">Nome do Usuário</span>
+                    <button id="logoutBtn" class="logout-btn">Sair</button>
+                </div>
+            </header>
+
+            <section class="reports-section">
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Filtrar por data, pontuação..." aria-label="Pesquisar relatório">
+                </div>
+
+                <div class="table-container">
+                    <table id="reportsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data do Jogo</th>
+                                <th>Pontuação Final</th>
+                                <th>Tempo de Jogo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3">Carregando dados...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/reports.js"></script>
+    
+</body>
+</html>
