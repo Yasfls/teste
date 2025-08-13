@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('senacDash_userPhone');
         
         // Redireciona o usuário para a página de login
-        window.location.href = 'pages/login.html';
+        window.location.href = 'login.html';
     }
 });
 

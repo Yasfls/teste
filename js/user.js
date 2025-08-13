@@ -13,11 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Pega os valores dos campos do formulário
             const fullName = document.getElementById('fullName').value;
             const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
 
             // Validação simples dos campos
-            if (fullName && phone && email) {
+            if (fullName && email && phone) {
                 // Chama a função para fazer o login
-                loginUser(fullName, email);
+                loginUser(fullName, email, phone);
             } else {
                 alert('Por favor, preencha todos os campos para continuar.');
             }
@@ -25,14 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Função de login que armazena os dados do usuário (RF01)
-    function loginUser(fullName, email) {
+    function loginUser(fullName, email, phone) {
         // Armazena os dados do usuário no armazenamento local do navegador
         // Isso simula uma sessão de login simples
         localStorage.setItem('senacDash_userName', fullName);
         localStorage.setItem('senacDash_userEmail', email);
+        localStorage.setItem('senacDash_userPhone', phone);
 
         // Redireciona o usuário para a página do dashboard após o login
-        window.location.href = '../dashboard.html';
+        window.location.href = 'dashboard.html';
     }
 
     // A função de logout está no arquivo app.js, pois é usada em todo o site

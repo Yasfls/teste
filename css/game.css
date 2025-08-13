@@ -26,8 +26,8 @@
 /* Item do Jogo (canetas, copos, etc.) */
 .game-item {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -42,9 +42,20 @@
 
 /* Classes para os diferentes tipos de itens */
 .item-caneta {
-    background-image: url('../images/item-icon-1.png');
+    background-image: url('../images/caneta_image.png');
 }
-
-.item-copo {
-    background-image: url('../images/item-icon-2.png');
+.item-calculadora {
+    background-image: url('../images/calculadora_image.png');
+}
+.item-notebook {
+    background-image: url('../images/notebook_image.png');
+}
+.item-livro {
+    background-image: url('../images/livro_image.png');
+}
+.item-mochila {
+    background-image: url('../images/mochila_image.png');
+}
+.item-tablet {
+    background-image: url('../images/tablet_image.png');
 }

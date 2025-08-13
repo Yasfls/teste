@@ -4,32 +4,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apenas inicializa a lógica do jogo se estivermos na página do dashboard
     if (document.getElementById('gameArea')) {
         
+        console.log("Dashboard carregado. Inicializando o jogo...");
+
         // --- Variáveis Globais do Jogo ---
         const gameArea = document.getElementById('gameArea');
         const scoreValue = document.getElementById('scoreValue');
         const levelValue = document.getElementById('levelValue');
+        const hitsValue = document.getElementById('hitsValue');
         
         let score = 0;
         let level = 1;
-        let speed = 1000; // Velocidade inicial dos itens (em milissegundos)
-        let maxScore = 3000; // Pontuação máxima para a premiação
+        let hits = 0;
+        let speed = 1500; // Tempo inicial para um novo item aparecer (em milissegundos)
+        let removeTime = 1000; // Tempo para o item desaparecer (em milissegundos)
         let gameInterval;
+        let removeInterval;
         
-        // Tipos de itens que aparecerão no jogo
-        const itemTypes = ['caneta', 'copo']; 
+        // Tipos de itens que aparecerão no jogo, com seus nomes de classe correspondentes
+        const itemTypes = ['caneta','notebook','livro','mochila','calculadora','tablet'];
+        const itemsToWin = 10; // Número de itens para passar de nível
 
         // --- Funções do Jogo ---
 
         // Função principal que inicia o jogo
         function startGame() {
-            // Limpa a área do jogo de qualquer item antigo
-            gameArea.innerHTML = ''; 
+            gameArea.innerHTML = ''; // Limpa a área do jogo de qualquer item antigo
+            updateDisplay(); // Atualiza a pontuação, nível e acertos na tela
             
-            // Inicia o intervalo de tempo para criar novos itens
+            // Inicia o intervalo para criar novos itens
             gameInterval = setInterval(createGameItem, speed);
         }
 
-        // Cria um novo item na tela (RF09)
+        // Cria um novo item na tela
         function createGameItem() {
             // Escolhe um tipo de item aleatoriamente
             const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
@@ -38,10 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.className = `game-item item-${randomItemType}`;
 
-            // Define a posição inicial do item (aleatória na tela)
+            // Define a posição aleatória do item
             const gameAreaRect = gameArea.getBoundingClientRect();
-            const top = Math.random() * (gameAreaRect.height - 60); // 60px é a altura do item
-            const left = Math.random() * (gameAreaRect.width - 60);  // 60px é a largura do item
+            const top = Math.random() * (gameAreaRect.height - 100);
+            const left = Math.random() * (gameAreaRect.width - 100);
             
             item.style.top = `${top}px`;
             item.style.left = `${left}px`;
@@ -51,52 +57,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Adiciona o evento de clique ao item
             item.addEventListener('click', () => {
-                // Remove o item após o clique
-                item.remove(); 
-                // Aumenta a pontuação
-                updateScore(100); 
+                item.remove(); // Remove o item após o clique
+                updateScore(100); // Aumenta a pontuação
+                updateHits(); // Aumenta o contador de acertos
             });
 
-            // Remove o item automaticamente após 2 segundos, se não for clicado
-            setTimeout(() => {
+            // Remove o item automaticamente após 'removeTime' segundos, se não for clicado
+            removeInterval = setTimeout(() => {
                 if (gameArea.contains(item)) {
                     item.remove();
                 }
-            }, 2000); 
+            }, removeTime);
         }
 
-        // Atualiza a pontuação do jogador (RF09)
+        // Atualiza a pontuação do jogador
         function updateScore(points) {
             score += points;
             scoreValue.textContent = score;
+        }
 
-            // Verifica se a pontuação chegou ao máximo
-            if (score >= maxScore) {
-                // Para o jogo
-                clearInterval(gameInterval); 
-                alert('Parabéns! Você alcançou a pontuação máxima e ganhou um prêmio!');
-                // Aqui você pode adicionar lógica para mostrar o prêmio
-            }
-
-            // Aumenta o nível e a velocidade a cada 500 pontos (RF10)
-            if (score % 500 === 0 && score > 0) {
+        // Atualiza o contador de acertos
+        function updateHits() {
+            hits++;
+            hitsValue.textContent = hits;
+            
+            // Verifica se o jogador atingiu o número de acertos para subir de nível
+            if (hits % itemsToWin === 0 && hits > 0) {
                 levelUp();
             }
         }
         
-        // Aumenta o nível e a dificuldade do jogo (RF10)
+        // Aumenta o nível e a dificuldade do jogo
         function levelUp() {
             level++;
             levelValue.textContent = level;
             
-            // Diminui o tempo do intervalo para criar itens mais rapidamente
-            speed -= 100; 
+            // Aumenta a dificuldade diminuindo o tempo de aparecimento e remoção dos itens
+            speed = Math.max(500, speed - 150); // Mínimo de 500ms
+            removeTime = Math.max(500, removeTime - 100); // Mínimo de 500ms
             
-            // Limpa o intervalo anterior para iniciar um novo com a nova velocidade
+            // Reinicia o intervalo com a nova velocidade
             clearInterval(gameInterval);
             gameInterval = setInterval(createGameItem, speed);
 
             alert(`Parabéns! Você alcançou o Nível ${level}! A velocidade irá aumentar.`);
+        }
+
+        // Atualiza os indicadores na tela
+        function updateDisplay() {
+            scoreValue.textContent = score;
+            levelValue.textContent = level;
+            hitsValue.textContent = hits;
         }
 
         // Inicia o jogo quando a página é carregada
