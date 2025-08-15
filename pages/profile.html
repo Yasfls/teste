@@ -120,27 +120,24 @@
 
     <script src="../js/app.js"></script>
     <script src="../js/user.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Carrega e exibe os dados do usuário (nome, email, telefone)
-            const userName = localStorage.getItem('senacDash_userName');
-            const userEmail = localStorage.getItem('senacDash_userEmail');
-            const userPhone = localStorage.getItem('senacDash_userPhone');
-            
-            document.getElementById('profileName').textContent = userName || 'Usuário Não Logado';
-            document.getElementById('profileEmail').textContent = userEmail || 'Não informado';
-            document.getElementById('profilePhone').textContent = userPhone || 'Não informado';
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const userName = localStorage.getItem('senacDash_userName');
+        const userEmail = localStorage.getItem('senacDash_userEmail');
+        const userPhone = localStorage.getItem('senacDash_userPhone');
+        
+        document.getElementById('profileName').textContent = userName || 'Usuário Não Logado';
+        document.getElementById('profileEmail').textContent = userEmail || 'Não informado';
+        document.getElementById('profilePhone').textContent = userPhone || 'Não informado';
 
-            // Para carregar a maior pontuação e total de jogos,
-            // você precisaria de uma lógica em `reports.js` ou `game.js`
-            // para salvar esses dados no localStorage.
-            const highScore = localStorage.getItem('senacDash_highScore') || 0;
-            const totalGames = localStorage.getItem('senacDash_totalGames') || 0;
-            
-            document.getElementById('highScore').textContent = highScore;
-            document.getElementById('totalGames').textContent = totalGames;
-        });
-    </script>
+        // Carrega a maior pontuação e o total de jogos
+        const highScore = localStorage.getItem('senacDash_highScore') || 0;
+        const totalGames = localStorage.getItem('senacDash_totalGames') || 0;
+        
+        document.getElementById('highScore').textContent = highScore;
+        document.getElementById('totalGames').textContent = totalGames;
+    });
+</script>
     
 </body>
 </html>

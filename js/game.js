@@ -20,34 +20,75 @@ document.addEventListener('DOMContentLoaded', () => {
         let gameInterval;
         let removeInterval;
         
-        // Tipos de itens que aparecerão no jogo, com seus nomes de classe correspondentes
-        const itemTypes = ['caneta','notebook','livro','mochila','calculadora','tablet'];
+        // Tipos de itens que aparecerão no jogo (devem corresponder às classes CSS)
+        const itemTypes = ['caneta', 'calculadora', 'notebook', 'livro', 'mochila', 'tablet'];
         const itemsToWin = 10; // Número de itens para passar de nível
+
+        // Adiciona um evento para quando a página for fechada ou recarregada
+        window.addEventListener('beforeunload', saveGameData);
 
         // --- Funções do Jogo ---
 
         // Função principal que inicia o jogo
         function startGame() {
+            // Adicione esta linha aqui para incrementar o contador de jogos
+            incrementTotalGames();
+            
             gameArea.innerHTML = ''; // Limpa a área do jogo de qualquer item antigo
-            updateDisplay(); // Atualiza a pontuação, nível e acertos na tela
+            loadGameData(); // Carrega dados salvos
+            updateDisplay(); // Atualiza os indicadores na tela
             
             // Inicia o intervalo para criar novos itens
             gameInterval = setInterval(createGameItem, speed);
         }
 
+        // Carrega os dados salvos no localStorage
+        function loadGameData() {
+            const savedScore = localStorage.getItem('senacDash_currentScore');
+            const savedLevel = localStorage.getItem('senacDash_currentLevel');
+            const savedHits = localStorage.getItem('senacDash_currentHits');
+
+            if (savedScore) {
+                score = parseInt(savedScore);
+            }
+            if (savedLevel) {
+                level = parseInt(savedLevel);
+            }
+            if (savedHits) {
+                hits = parseInt(savedHits);
+            }
+        }
+
+        // Salva a pontuação, o nível e a quantidade de acertos
+        function saveGameData() {
+            localStorage.setItem('senacDash_currentScore', score);
+            localStorage.setItem('senacDash_currentLevel', level);
+            localStorage.setItem('senacDash_currentHits', hits);
+            
+            // Salva a maior pontuação (High Score)
+            const highScore = localStorage.getItem('senacDash_highScore') || 0;
+            if (score > parseInt(highScore)) {
+                localStorage.setItem('senacDash_highScore', score);
+            }
+        }
+        
+        // Função para incrementar o total de jogos jogados
+        function incrementTotalGames() {
+            let totalGames = localStorage.getItem('senacDash_totalGames') || 0;
+            totalGames = parseInt(totalGames) + 1;
+            localStorage.setItem('senacDash_totalGames', totalGames);
+        }
+
         // Cria um novo item na tela
         function createGameItem() {
-            // Escolhe um tipo de item aleatoriamente
             const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
-            
-            // Cria o elemento HTML do item
             const item = document.createElement('div');
             item.className = `game-item item-${randomItemType}`;
 
             // Define a posição aleatória do item
             const gameAreaRect = gameArea.getBoundingClientRect();
-            const top = Math.random() * (gameAreaRect.height - 100);
-            const left = Math.random() * (gameAreaRect.width - 100);
+            const top = Math.random() * (gameAreaRect.height - 100); // 100px é a altura do item
+            const left = Math.random() * (gameAreaRect.width - 100);  // 100px é a largura do item
             
             item.style.top = `${top}px`;
             item.style.left = `${left}px`;
