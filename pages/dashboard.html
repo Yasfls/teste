@@ -1,77 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Senac</title>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
+    <title>Dashboard Senac</title>
+    
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/game.css">
-    </head>
+</head>
 <body>
 
-    <div class="app-container">
-        
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <img src="../images/senac-logo.png" alt="Logo Senac">
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="reports.html">Relatórios</a></li>
-                    <li><a href="profile.html">Meu Perfil</a></li>
-                </ul>
-            </nav>
-        </aside>
+    <div class="dashboard-container">
 
-        <main class="main-content">
+        <div class="sidebar">
+            <a href="#" class="logo-link">
+                <img src="../images/senac-logo.png" alt="Logo Senac" class="senac-logo">
+            </a>
+            <h2>Dashboard</h2>
+            <div class="sidebar-menu">
+                <a href="#" class="sidebar-button active">Início</a>
+                <a href="profile.html" class="sidebar-button">Perfil</a>
+                <a href="login.html" class="sidebar-button">Sair</a>
+            </div>
+        </div>
+
+        <div class="main-content">
             
-            <header class="main-header">
-                <h1 class="page-title">Dashboard</h1>
+            <button class="hamburger-menu" id="toggleSidebar">
+                ☰
+            </button>
+
+            <header class="dashboard-header">
+                <h1 class="header-title">Dashboard</h1>
                 <div class="user-info">
-                    <span id="userName">Nome do Usuário</span>
-                    <button id="logoutBtn" class="logout-btn">Sair</button>
+                    <span id="userNameDisplay">Usuário</span>
+                    <a href="login.html" class="logout-button">Sair</a>
                 </div>
             </header>
 
-            <section class="dashboard-indicators">
-                <div class="indicator-card">
-                    <span class="indicator-icon">🏆</span>
-                    <div class="indicator-info">
-                        <span class="indicator-label">Pontuação</span>
-                        <span id="scoreValue" class="indicator-value">0</span>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="icon-container">
+                        🏆
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">PONTUAÇÃO</h3>
+                        <p class="card-value" id="scoreValue">0</p>
                     </div>
                 </div>
-                <div class="indicator-card">
-                    <span class="indicator-icon">⚡️</span>
-                    <div class="indicator-info">
-                        <span class="indicator-label">Nível</span>
-                        <span id="levelValue" class="indicator-value">1</span>
+
+                <div class="info-card">
+                    <div class="icon-container">
+                        ⚡
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">NÍVEL</h3>
+                        <p class="card-value" id="levelValue">1</p>
                     </div>
                 </div>
-                <div class="indicator-card">
-                    <span class="indicator-icon">🎯</span>
-                    <div class="indicator-info">
-                        <span class="indicator-label">Acertos</span>
-                        <span id="hitsValue" class="indicator-value">0</span>
+
+                <div class="info-card">
+                    <div class="icon-container">
+                        🎯
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">ACERTOS</h3>
+                        <p class="card-value" id="hitsValue">0</p>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <section id="gameArea" class="game-area">
-                <div class="game-instructions">
+                <p class="game-instructions">
                     Clique nos itens do Senac para ganhar pontos!
-                </div>
+                </p>
             </section>
+        </div>
 
-        </main>
     </div>
 
-    <script src="../js/app.js"></script>
-    <script src="../js/user.js"></script>
-    <script src="../js/game.js"></script>
     <script src="../js/dashboard.js"></script>
-    
+    <script src="../js/game.js"></script>
+
 </body>
 </html>
