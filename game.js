@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scoreValue = document.getElementById('scoreValue');
         const levelValue = document.getElementById('levelValue');
         const hitsValue = document.getElementById('hitsValue');
+        const startGameButton = document.getElementById('startGameButton'); // Novo: Referência ao botão
         
         let score = 0;
         let level = 1;
@@ -31,16 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Função principal que inicia o jogo
         function startGame() {
-            // Adicione esta linha aqui para incrementar o contador de jogos
-            incrementTotalGames();
-            
-            gameArea.innerHTML = ''; // Limpa a área do jogo de qualquer item antigo
-            loadGameData(); // Carrega dados salvos
-            updateDisplay(); // Atualiza os indicadores na tela
-            
-            // Inicia o intervalo para criar novos itens
-            gameInterval = setInterval(createGameItem, speed);
-        }
+        // Oculta as instruções e o botão de iniciar
+        gameInstructions.style.display = 'none';
+        startGameButton.style.display = 'none';
+        
+        // Reseta as variáveis para um novo jogo
+        score = 0;
+        level = 1;
+        hits = 0;
+        timeLeft = gameDuration;
+        updateDashboard();
+
+        // Inicia os intervalos do jogo
+        gameInterval = setInterval(updateGame, 1000); // Roda a cada 1 segundo
+        gameItemsInterval = setInterval(createGameItem, 1000); // Cria um item a cada 1s
+        itemMoveInterval = setInterval(moveGameItems, 50); // Move os itens a cada 50ms
+    }
 
         // Carrega os dados salvos no localStorage
         function loadGameData() {

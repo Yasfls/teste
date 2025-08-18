@@ -59,3 +59,18 @@
 .item-tablet {
     background-image: url('tablet_image.png');
 }
+/* Estilos para o botão de Iniciar Jogo */
+.start-button {
+    background-color: #007bff; /* Cor de destaque */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+    background-color: #0056b3; /* Cor mais escura no hover */
+}
