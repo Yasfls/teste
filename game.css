@@ -1,43 +1,66 @@
-
+/* Estilos para a área do jogo */
 .game-area {
-    background-color: #fff;
-    border: 2px dashed #ccc;
-    border-radius: 15px;
-    flex-grow: 1;
-    position: relative;
-    overflow: hidden;
-    cursor: crosshair;
+    /* Define a área de jogo com bordas e tamanho fixo */
+    width: 100%;
+    height: 400px;
+    background-color: #e9ecef;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    position: relative; /* Essencial para que os itens do jogo se posicionem corretamente */
+    overflow: hidden; /* Garante que os itens não apareçam fora da área */
+
+    /* Estilos para centralizar o botão de iniciar */
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-}
-
-.game-instructions {
-    font-size: 18px;
-    color: #888;
+    align-items: center;
     text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    user-select: none;
 }
 
-/* Item do Jogo (canetas, copos, etc.) */
+/* Estilos para os itens que caem no jogo */
 .game-item {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    width: 50px;
+    height: 50px;
+    background-color: #004d99; /* Cor do Senac */
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: absolute; /* Permite o movimento na área de jogo */
     cursor: pointer;
     user-select: none;
-    transition: transform 0.1s ease-out;
+    transition: transform 0.1s;
 }
 
+/* Efeito de clique no item */
 .game-item:active {
     transform: scale(0.9);
+}
+
+/* Estilos para o botão de Iniciar Jogo */
+.start-button {
+    background-color: #007bff; /* Cor de destaque */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+    background-color: #0056b3; /* Cor mais escura no hover */
+}
+
+/* Estilos para a mensagem de instrução */
+.game-instructions {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
 }
 
 /* Classes para os diferentes tipos de itens */
