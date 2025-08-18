@@ -36,11 +36,4 @@ document.addEventListener('DOMContentLoaded', () => {
         // Redireciona o usuário para a página do dashboard após o login
         window.location.href = 'dashboard.html';
     }
-
-    // A função de logout está no arquivo app.js, pois é usada em todo o site
-    // Mas a lógica para ela poderia estar aqui também.
-
-    // A função `loginUser` é a principal responsável por lidar com o RF01 (Login de Usuário).
-    // Ela armazena os dados completos do usuário no `localStorage` do navegador
-    // e depois o redireciona para a página principal do jogo.
 });

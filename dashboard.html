@@ -2,12 +2,13 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário - Dashboard Senac</title>
     
-    <link rel="stylesheet" href="../css/main.css">
+    <title>Dashboard Senac</title>
     
-    <link rel="stylesheet" href="../css/game.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="game.css">
 </head>
 <body>
 
@@ -15,12 +16,12 @@
 
         <div class="sidebar">
             <a href="#" class="logo-link">
-                <img src="../images/senac-logo.png" alt="Logo Senac" class="senac-logo">
+                <img src="senac-logo.png" alt="Logo Senac" class="senac-logo">
             </a>
             <h2>Dashboard</h2>
             <div class="sidebar-menu">
-                <a href="dashboard.html" class="sidebar-button">Início</a>
-                <a href="#" class="sidebar-button active">Perfil</a>
+                <a href="#" class="sidebar-button active">Início</a>
+                <a href="profile.html" class="sidebar-button">Perfil</a>
                 <a href="login.html" class="sidebar-button">Sair</a>
             </div>
         </div>
@@ -34,7 +35,7 @@
                 </button>
 
                 <header class="dashboard-header">
-                    <h1 class="header-title">Perfil</h1>
+                    <h1 class="header-title">Dashboard</h1>
                     <div class="user-info">
                         <span id="userNameDisplay">Usuário</span>
                         <a href="login.html" class="logout-button">Sair</a>
@@ -43,43 +44,49 @@
 
             </div>
 
-            <section class="profile-details">
-                <div class="profile-card">
-                    <h3>Detalhes do Usuário</h3>
-                    <p><strong>Nome:</strong> <span id="profileName"></span></p>
-                    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-                    <p><strong>Telefone:</strong> <span id="profilePhone"></span></p>
-                </div>
-            </section>
-            
-            <section class="game-stats-cards">
+            <div class="info-cards">
                 <div class="info-card">
                     <div class="icon-container">
                         🏆
                     </div>
                     <div class="card-content">
-                        <h3 class="card-title">MAIOR PONTUAÇÃO</h3>
-                        <p class="card-value" id="highScore">0</p>
+                        <h3 class="card-title">PONTUAÇÃO</h3>
+                        <p class="card-value" id="scoreValue">0</p>
                     </div>
                 </div>
 
                 <div class="info-card">
                     <div class="icon-container">
-                        🎮
+                        ⚡
                     </div>
                     <div class="card-content">
-                        <h3 class="card-title">JOGOS JOGADOS</h3>
-                        <p class="card-value" id="totalGames">0</p>
+                        <h3 class="card-title">NÍVEL</h3>
+                        <p class="card-value" id="levelValue">1</p>
                     </div>
                 </div>
-            </section>
 
+                <div class="info-card">
+                    <div class="icon-container">
+                        🎯
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">ACERTOS</h3>
+                        <p class="card-value" id="hitsValue">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <section id="gameArea" class="game-area">
+                <p class="game-instructions">
+                    Clique nos itens do Senac para ganhar pontos!
+                </p>
+            </section>
         </div>
 
     </div>
 
-    <script src="../js/dashboard.js"></script>
-    <script src="../js/profile.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="game.js"></script>
 
 </body>
 </html>
