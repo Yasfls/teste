@@ -1,138 +1,157 @@
 // Arquivo: js/game.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Apenas inicializa a lógica do jogo se estivermos na página do dashboard
+    if (document.getElementById('gameArea')) {
+        
+        console.log("Dashboard carregado. Inicializando o jogo...");
 
-    // Referências aos elementos da página
-    const scoreElement = document.getElementById('scoreValue');
-    const levelElement = document.getElementById('levelValue');
-    const hitsElement = document.getElementById('hitsValue');
-    const gameArea = document.getElementById('gameArea');
-    const gameInstructions = document.querySelector('.game-instructions');
-    const startGameButton = document.getElementById('startGameButton');
+        // --- Variáveis Globais do Jogo ---
+        const gameArea = document.getElementById('gameArea');
+        const scoreValue = document.getElementById('scoreValue');
+        const levelValue = document.getElementById('levelValue');
+        const hitsValue = document.getElementById('hitsValue');
+        
+        let score = 0;
+        let level = 1;
+        let hits = 0;
+        let speed = 1500; // Tempo inicial para um novo item aparecer (em milissegundos)
+        let removeTime = 1000; // Tempo para o item desaparecer (em milissegundos)
+        let gameInterval;
+        let removeInterval;
+        
+        // Tipos de itens que aparecerão no jogo (devem corresponder às classes CSS)
+        const itemTypes = ['caneta', 'calculadora', 'notebook', 'livro', 'mochila', 'tablet'];
+        const itemsToWin = 10; // Número de itens para passar de nível
 
-    // Variáveis do jogo
-    let score = 0;
-    let level = 1;
-    let hits = 0;
-    let gameInterval;
-    let gameItemsInterval;
-    let itemMoveInterval;
-    let gameDuration = 30; // Duração do jogo em segundos
-    let timeLeft = gameDuration;
-    
-    // Dados salvos no localStorage
-    let highScore = localStorage.getItem('senacDash_highScore') || 0;
-    let totalGames = localStorage.getItem('senacDash_totalGames') || 0;
+        // Adiciona um evento para quando a página for fechada ou recarregada
+        window.addEventListener('beforeunload', saveGameData);
 
-    // --- FUNÇÕES DE LÓGICA DO JOGO ---
+        // --- Funções do Jogo ---
 
-    // Função para iniciar o jogo
-    function startGame() {
-        // Oculta as instruções e o botão de iniciar
-        gameInstructions.style.display = 'none';
-        startGameButton.style.display = 'none';
+        // Função principal que inicia o jogo
+        function startGame() {
+            // Adicione esta linha aqui para incrementar o contador de jogos
+            incrementTotalGames();
+            
+            gameArea.innerHTML = ''; // Limpa a área do jogo de qualquer item antigo
+            loadGameData(); // Carrega dados salvos
+            updateDisplay(); // Atualiza os indicadores na tela
+            
+            // Inicia o intervalo para criar novos itens
+            gameInterval = setInterval(createGameItem, speed);
+        }
 
-        // Reseta as variáveis para um novo jogo
-        score = 0;
-        level = 1;
-        hits = 0;
-        timeLeft = gameDuration;
-        updateDashboard();
+        // Carrega os dados salvos no localStorage
+        function loadGameData() {
+            const savedScore = localStorage.getItem('senacDash_currentScore');
+            const savedLevel = localStorage.getItem('senacDash_currentLevel');
+            const savedHits = localStorage.getItem('senacDash_currentHits');
 
-        // Inicia os intervalos do jogo
-        gameInterval = setInterval(updateGame, 1000); // Roda a cada 1 segundo
-        gameItemsInterval = setInterval(createGameItem, 1000); // Cria um item a cada 1s
-        itemMoveInterval = setInterval(moveGameItems, 50); // Move os itens a cada 50ms
-    }
-
-    // Função para criar um novo item no jogo
-    function createGameItem() {
-        const item = document.createElement('div');
-        item.classList.add('game-item');
-        item.textContent = '🎓'; // Exemplo de ícone
-        item.style.left = Math.random() * (gameArea.offsetWidth - 50) + 'px'; // Posição X aleatória
-        item.style.top = '0px'; // Inicia no topo
-        item.dataset.points = 10;
-        gameArea.appendChild(item);
-    }
-
-    // Função para mover os itens do jogo
-    function moveGameItems() {
-        const items = document.querySelectorAll('.game-item');
-        items.forEach(item => {
-            let top = parseInt(item.style.top) || 0;
-            top += 5; // Velocidade de queda
-            item.style.top = top + 'px';
-
-            // Remove o item se ele sair da tela
-            if (top > gameArea.offsetHeight) {
-                item.remove();
+            if (savedScore) {
+                score = parseInt(savedScore);
             }
-        });
-    }
-
-    // Função para atualizar o jogo (chamada a cada segundo)
-    function updateGame() {
-        timeLeft--;
-        if (timeLeft <= 0) {
-            endGame();
+            if (savedLevel) {
+                level = parseInt(savedLevel);
+            }
+            if (savedHits) {
+                hits = parseInt(savedHits);
+            }
         }
-    }
 
-    // Função para atualizar os valores no dashboard
-    function updateDashboard() {
-        scoreElement.textContent = score;
-        levelElement.textContent = level;
-        hitsElement.textContent = hits;
-    }
-
-    // Função para salvar o score e o total de jogos
-    function saveGameStats() {
-        totalGames++;
-        localStorage.setItem('senacDash_totalGames', totalGames);
-
-        if (score > highScore) {
-            highScore = score;
-            localStorage.setItem('senacDash_highScore', highScore);
+        // Salva a pontuação, o nível e a quantidade de acertos
+        function saveGameData() {
+            localStorage.setItem('senacDash_currentScore', score);
+            localStorage.setItem('senacDash_currentLevel', level);
+            localStorage.setItem('senacDash_currentHits', hits);
+            
+            // Salva a maior pontuação (High Score)
+            const highScore = localStorage.getItem('senacDash_highScore') || 0;
+            if (score > parseInt(highScore)) {
+                localStorage.setItem('senacDash_highScore', score);
+            }
         }
-    }
+        
+        // Função para incrementar o total de jogos jogados
+        function incrementTotalGames() {
+            let totalGames = localStorage.getItem('senacDash_totalGames') || 0;
+            totalGames = parseInt(totalGames) + 1;
+            localStorage.setItem('senacDash_totalGames', totalGames);
+        }
 
-    // Função para encerrar o jogo
-    function endGame() {
-        // Limpa todos os intervalos para parar o jogo
-        clearInterval(gameInterval);
-        clearInterval(gameItemsInterval);
-        clearInterval(itemMoveInterval);
+        // Cria um novo item na tela
+        function createGameItem() {
+            const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
+            const item = document.createElement('div');
+            item.className = `game-item item-${randomItemType}`;
 
-        // Remove todos os itens do jogo
-        const items = document.querySelectorAll('.game-item');
-        items.forEach(item => item.remove());
+            // Define a posição aleatória do item
+            const gameAreaRect = gameArea.getBoundingClientRect();
+            const top = Math.random() * (gameAreaRect.height - 100); // 100px é a altura do item
+            const left = Math.random() * (gameAreaRect.width - 100);  // 100px é a largura do item
+            
+            item.style.top = `${top}px`;
+            item.style.left = `${left}px`;
 
-        // Salva as estatísticas do jogo
-        saveGameStats();
+            // Adiciona o item à área do jogo
+            gameArea.appendChild(item);
 
-        // Mostra o botão e as instruções para que o usuário possa jogar novamente
-        gameInstructions.style.display = 'block';
-        startGameButton.style.display = 'block';
+            // Adiciona o evento de clique ao item
+            item.addEventListener('click', () => {
+                item.remove(); // Remove o item após o clique
+                updateScore(100); // Aumenta a pontuação
+                updateHits(); // Aumenta o contador de acertos
+            });
 
-        alert(`Fim de jogo!\nSua pontuação final foi: ${score}\nVocê acertou: ${hits} itens.`);
-    }
+            // Remove o item automaticamente após 'removeTime' segundos, se não for clicado
+            removeInterval = setTimeout(() => {
+                if (gameArea.contains(item)) {
+                    item.remove();
+                }
+            }, removeTime);
+        }
 
-    // --- EVENT LISTENERS ---
-
-    // Evento de clique para os itens do jogo
-    gameArea.addEventListener('click', (event) => {
-        if (event.target.classList.contains('game-item')) {
-            const item = event.target;
-            const points = parseInt(item.dataset.points);
+        // Atualiza a pontuação do jogador
+        function updateScore(points) {
             score += points;
-            hits++;
-            item.remove(); // Remove o item após o clique
-            updateDashboard();
+            scoreValue.textContent = score;
         }
-    });
 
-    // Evento para iniciar o jogo ao clicar no botão
-    startGameButton.addEventListener('click', startGame);
+        // Atualiza o contador de acertos
+        function updateHits() {
+            hits++;
+            hitsValue.textContent = hits;
+            
+            // Verifica se o jogador atingiu o número de acertos para subir de nível
+            if (hits % itemsToWin === 0 && hits > 0) {
+                levelUp();
+            }
+        }
+        
+        // Aumenta o nível e a dificuldade do jogo
+        function levelUp() {
+            level++;
+            levelValue.textContent = level;
+            
+            // Aumenta a dificuldade diminuindo o tempo de aparecimento e remoção dos itens
+            speed = Math.max(500, speed - 150); // Mínimo de 500ms
+            removeTime = Math.max(500, removeTime - 100); // Mínimo de 500ms
+            
+            // Reinicia o intervalo com a nova velocidade
+            clearInterval(gameInterval);
+            gameInterval = setInterval(createGameItem, speed);
 
+            alert(`Parabéns! Você alcançou o Nível ${level}! A velocidade irá aumentar.`);
+        }
+
+        // Atualiza os indicadores na tela
+        function updateDisplay() {
+            scoreValue.textContent = score;
+            levelValue.textContent = level;
+            hitsValue.textContent = hits;
+        }
+
+        // Inicia o jogo quando a página é carregada
+        startGame();
+    }
 });
