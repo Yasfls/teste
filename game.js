@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const resetGameButton = document.getElementById('resetGameButton');
         const gameInstructions = document.querySelector('.game-instructions');
         // Crie o objeto de som do clique
-        const clickSound = new Audio('sounds/click.mp3');
+        const clickSound = new Audio('click.mp3');
         clickSound.preload = 'auto';
         // Toca e pausa o som para forçar o carregamento imediato, eliminando o delay
         clickSound.play().then(() => {
             clickSound.pause();
         }).catch(e => console.log("O som do clique não pôde ser pré-carregado."));
         // Crie a música de fundo
-        const backgroundMusic = new Audio('sounds/background_music.mp3');
+        const backgroundMusic = new Audio('background_music.mp3');
         backgroundMusic.loop = true; // Faz a música tocar em loop
         backgroundMusic.volume = 0.5; // Ajusta o volume (opcional)
         let score = 0;
