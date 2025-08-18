@@ -10,11 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const toggleGameButton = document.getElementById('toggleGameButton');
         const resetGameButton = document.getElementById('resetGameButton');
         const gameInstructions = document.querySelector('.game-instructions');
-        // Crie o objeto de som do clique e adicione um evento para verificar o carregamento
-        const clickSound = new Audio('click.mp3');
-        clickSound.preload = 'auto'; // Tenta pré-carregar o som
+        // Crie o objeto de som do clique
+        const clickSound = new Audio('sounds/click.mp3');
+        clickSound.preload = 'auto';
+        // Toca e pausa o som para forçar o carregamento imediato, eliminando o delay
+        clickSound.play().then(() => {
+            clickSound.pause();
+        }).catch(e => console.log("O som do clique não pôde ser pré-carregado."));
         // Crie a música de fundo
-        const backgroundMusic = new Audio('background_music.mp3');
+        const backgroundMusic = new Audio('sounds/background_music.mp3');
         backgroundMusic.loop = true; // Faz a música tocar em loop
         backgroundMusic.volume = 0.5; // Ajusta o volume (opcional)
         let score = 0;
@@ -131,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.remove();
                 updateScore(100);
                 updateHits();
-                // Toca o som do clique (agora com controle de promessa)
+                // Toca o som do clique (agora sem o risco de delay)
                 clickSound.currentTime = 0;
                 clickSound.play().catch(e => console.error("Erro ao tocar o som do clique:", e));
             });
