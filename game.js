@@ -1,4 +1,3 @@
-// Arquivo: js/game.js
 document.addEventListener('DOMContentLoaded', () => {
     // Apenas inicializa a lógica do jogo se estivermos na página do dashboard
     if (document.getElementById('gameArea')) {
@@ -11,8 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const toggleGameButton = document.getElementById('toggleGameButton');
         const resetGameButton = document.getElementById('resetGameButton');
         const gameInstructions = document.querySelector('.game-instructions');
-        // Adicione as novas variáveis de áudio
-        const clickSound = new Audio('click.mp3'); 
+        // Crie o objeto de som do clique e adicione um evento para verificar o carregamento
+        const clickSound = new Audio('click.mp3');
+        clickSound.preload = 'auto'; // Tenta pré-carregar o som
+        // Crie a música de fundo
         const backgroundMusic = new Audio('background_music.mp3');
         backgroundMusic.loop = true; // Faz a música tocar em loop
         backgroundMusic.volume = 0.5; // Ajusta o volume (opcional)
@@ -33,37 +34,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Funções do Jogo ---
         // Função principal que inicia ou retoma o jogo
         function startGame() {
-            if (!isPaused) return; // Não faz nada se já estiver rodando
+            if (!isPaused) return;
             isPaused = false;
-            gameInstructions.style.display = 'none'; // Esconde a instrução
+            gameInstructions.style.display = 'none';
             toggleGameButton.textContent = 'Pausar Jogo';
             resetGameButton.style.display = 'inline-block';
-            // Inicia a música de fundo
-            backgroundMusic.play();
-            // Incrementa o contador de jogos apenas na primeira vez que o jogo é iniciado
+            backgroundMusic.play().catch(e => console.error("Erro ao tocar a música de fundo:", e));
             incrementTotalGames();
             loadGameData();
             updateDisplay();
-            // Inicia o intervalo para criar novos itens
             gameInterval = setInterval(createGameItem, speed);
         }
         // Função para pausar o jogo
         function pauseGame() {
-            if (isPaused) return; // Não faz nada se já estiver pausado
+            if (isPaused) return;
             isPaused = true;
             clearInterval(gameInterval);
-            // Pausa a remoção dos itens que estão na tela
             clearAllItems();
             toggleGameButton.textContent = 'Retomar Jogo';
-            // Pausa a música de fundo
             backgroundMusic.pause();
-            saveGameData(); // Salva o estado atual ao pausar
+            saveGameData();
         }
         // Função para reiniciar o jogo
         function resetGame() {
             pauseGame();
             clearAllItems();
-            gameArea.innerHTML = ''; // Limpa a área do jogo de qualquer item
+            gameArea.innerHTML = '';
             score = 0;
             level = 1;
             hits = 0;
@@ -75,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
             gameInstructions.style.display = 'block';
             toggleGameButton.textContent = 'Iniciar Jogo';
             resetGameButton.style.display = 'none';
-            // Para a música e a reinicia para o começo
             backgroundMusic.pause();
             backgroundMusic.currentTime = 0;
             updateDisplay();
@@ -125,20 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
             item.className = `game-item item-${randomItemType}`;
             // Define a posição aleatória do item
             const gameAreaRect = gameArea.getBoundingClientRect();
-            const top = Math.random() * (gameAreaRect.height - 100); // 100px é a altura do item
-            const left = Math.random() * (gameAreaRect.width - 100);  // 100px é a largura do item
+            const top = Math.random() * (gameAreaRect.height - 100);
+            const left = Math.random() * (gameAreaRect.width - 100);
             item.style.top = `${top}px`;
             item.style.left = `${left}px`;
             // Adiciona o item à área do jogo
             gameArea.appendChild(item);
             // Adiciona o evento de clique ao item
             item.addEventListener('click', () => {
-                item.remove(); // Remove o item após o clique
-                updateScore(100); // Aumenta a pontuação
-                updateHits(); // Aumenta o contador de acertos
-                // Toca o som do clique
-                clickSound.currentTime = 0; // Reinicia o som para que possa ser tocado rapidamente
-                clickSound.play();
+                item.remove();
+                updateScore(100);
+                updateHits();
+                // Toca o som do clique (agora com controle de promessa)
+                clickSound.currentTime = 0;
+                clickSound.play().catch(e => console.error("Erro ao tocar o som do clique:", e));
             });
             // Remove o item automaticamente após 'removeTime' segundos, se não for clicado
             const itemTimeout = setTimeout(() => {
@@ -158,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateHits() {
             hits++;
             hitsValue.textContent = hits;
-            // Verifica se o jogador atingiu o número de acertos para subir de nível
             if (hits % itemsToWin === 0 && hits > 0) {
                 levelUp();
             }
@@ -167,10 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         function levelUp() {
             level++;
             levelValue.textContent = level;
-            // Aumenta a dificuldade diminuindo o tempo de aparecimento e remoção dos itens
-            speed = Math.max(500, speed - 150); // Mínimo de 500ms
-            removeTime = Math.max(500, removeTime - 100); // Mínimo de 500ms
-            // Reinicia o intervalo com a nova velocidade
+            speed = Math.max(500, speed - 150);
+            removeTime = Math.max(500, removeTime - 100);
             clearInterval(gameInterval);
             gameInterval = setInterval(createGameItem, speed);
             alert(`Parabéns! Você alcançou o Nível ${level}! A velocidade irá aumentar.`);
