@@ -74,3 +74,9 @@
 .start-button:hover {
     background-color: #0056b3; /* Cor mais escura no hover */
 }
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espaço entre os botões */
+    margin-top: 20px; /* Margem acima para separar da área do jogo */
+}
