@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const toggleGameButton = document.getElementById('toggleGameButton');
         const resetGameButton = document.getElementById('resetGameButton');
         const gameInstructions = document.querySelector('.game-instructions');
+        // Adicione as novas variáveis de áudio
+        const clickSound = new Audio('click.mp3'); 
+        const backgroundMusic = new Audio('background_music.mp3');
+        backgroundMusic.loop = true; // Faz a música tocar em loop
+        backgroundMusic.volume = 0.5; // Ajusta o volume (opcional)
         let score = 0;
         let level = 1;
         let hits = 0;
@@ -33,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             gameInstructions.style.display = 'none'; // Esconde a instrução
             toggleGameButton.textContent = 'Pausar Jogo';
             resetGameButton.style.display = 'inline-block';
+            // Inicia a música de fundo
+            backgroundMusic.play();
             // Incrementa o contador de jogos apenas na primeira vez que o jogo é iniciado
             incrementTotalGames();
             loadGameData();
@@ -48,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Pausa a remoção dos itens que estão na tela
             clearAllItems();
             toggleGameButton.textContent = 'Retomar Jogo';
+            // Pausa a música de fundo
+            backgroundMusic.pause();
             saveGameData(); // Salva o estado atual ao pausar
         }
         // Função para reiniciar o jogo
@@ -66,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
             gameInstructions.style.display = 'block';
             toggleGameButton.textContent = 'Iniciar Jogo';
             resetGameButton.style.display = 'none';
+            // Para a música e a reinicia para o começo
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
             updateDisplay();
         }
         // Limpa todos os itens da tela e seus timeouts
@@ -124,6 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.remove(); // Remove o item após o clique
                 updateScore(100); // Aumenta a pontuação
                 updateHits(); // Aumenta o contador de acertos
+                // Toca o som do clique
+                clickSound.currentTime = 0; // Reinicia o som para que possa ser tocado rapidamente
+                clickSound.play();
             });
             // Remove o item automaticamente após 'removeTime' segundos, se não for clicado
             const itemTimeout = setTimeout(() => {
