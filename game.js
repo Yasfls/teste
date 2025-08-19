@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apenas inicializa a lógica do jogo se estivermos na página do dashboard
     if (document.getElementById('gameArea')) {
         console.log("Dashboard carregado. Inicializando o jogo...");
+ 
         // --- Variáveis Globais do Jogo ---
         const gameArea = document.getElementById('gameArea');
         const scoreValue = document.getElementById('scoreValue');
@@ -16,19 +17,37 @@ document.addEventListener('DOMContentLoaded', () => {
             audio.preload = 'auto';
             return audio;
         });
-        // Pré-carrega os sons (elimina delay no primeiro clique)
-        function preloadClickSounds() {
+ 
+        // Música de fundo
+        const backgroundMusic = new Audio('background_music.mp3');
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.5;
+ 
+        // --- Função para destravar os sons na primeira interação ---
+        function unlockAudio() {
             clickSoundPool.forEach(sound => {
-                sound.volume = 0; // silencia para não incomodar
+                sound.volume = 0; // mudo
                 sound.play().then(() => {
                     sound.pause();
                     sound.currentTime = 0;
-                    sound.volume = 1; // restaura volume
-                }).catch(() => {
-                    // Falha antes da interação é normal, ignora
-                });
+                    sound.volume = 1.5; // restaura
+                }).catch(() => {});
             });
+ 
+            backgroundMusic.volume = 0;
+            backgroundMusic.play().then(() => {
+                backgroundMusic.pause();
+                backgroundMusic.currentTime = 0;
+                backgroundMusic.volume = 0.5;
+            }).catch(() => {});
+ 
+            document.removeEventListener("click", unlockAudio);
         }
+ 
+        // Garante desbloqueio no primeiro clique do usuário
+        document.addEventListener("click", unlockAudio);
+ 
+        // --- Função para tocar o som de clique ---
         function playClickSound() {
             const sound = clickSoundPool.find(s => s.paused);
             if (sound) {
@@ -36,10 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 sound.play().catch(e => console.error("Erro ao tocar o som do clique:", e));
             }
         }
-        // Música de fundo
-        const backgroundMusic = new Audio('background_music.mp3');
-        backgroundMusic.loop = true;
-        backgroundMusic.volume = 0.5;
         let score = 0;
         let level = 1;
         let hits = 0;
@@ -49,28 +64,27 @@ document.addEventListener('DOMContentLoaded', () => {
         let isPaused = true; 
         let activeItemTimeouts = [];
         const itemTypes = ['caneta', 'calculadora', 'notebook', 'livro', 'mochila', 'tablet'];
-        const itemsToWin = 10; 
+        const itemsToWin = 10;
+ 
         window.addEventListener('beforeunload', saveGameData);
+ 
         // --- Funções do Jogo ---
+ 
         function startGame() {
             if (!isPaused) return;
-            // Pré-carrega sons no início do jogo
-            preloadClickSounds();
+ 
             isPaused = false;
             gameInstructions.style.display = 'none';
             toggleGameButton.textContent = 'Pausar Jogo';
             resetGameButton.style.display = 'inline-block';
-            // Força o navegador a liberar o áudio na primeira interação
-            clickSoundPool[0].play().then(() => {
-                clickSoundPool[0].pause();
-                clickSoundPool[0].currentTime = 0;
-                backgroundMusic.play().catch(e => console.error("Erro ao tocar a música de fundo:", e));
-            }).catch(e => console.error("O som do clique não pôde ser pré-carregado."));
+            backgroundMusic.play().catch(e => console.error("Erro ao tocar a música de fundo:", e));
+ 
             incrementTotalGames();
             loadGameData();
             updateDisplay();
             gameInterval = setInterval(createGameItem, speed);
         }
+ 
         function pauseGame() {
             if (isPaused) return;
             isPaused = true;
@@ -80,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundMusic.pause();
             saveGameData();
         }
+ 
         function resetGame() {
             pauseGame();
             clearAllItems();
@@ -104,14 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
             activeItemTimeouts.forEach(timeout => clearTimeout(timeout));
             activeItemTimeouts = [];
         }
+ 
         function loadGameData() {
             const savedScore = localStorage.getItem('senacDash_currentScore');
             const savedLevel = localStorage.getItem('senacDash_currentLevel');
             const savedHits = localStorage.getItem('senacDash_currentHits');
+ 
             if (savedScore) score = parseInt(savedScore);
             if (savedLevel) level = parseInt(savedLevel);
             if (savedHits) hits = parseInt(savedHits);
         }
+ 
         function saveGameData() {
             localStorage.setItem('senacDash_currentScore', score);
             localStorage.setItem('senacDash_currentLevel', level);
@@ -126,22 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
             totalGames = parseInt(totalGames) + 1;
             localStorage.setItem('senacDash_totalGames', totalGames);
         }
+ 
         function createGameItem() {
             const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
             const item = document.createElement('div');
             item.className = `game-item item-${randomItemType}`;
+ 
             const gameAreaRect = gameArea.getBoundingClientRect();
             const top = Math.random() * (gameAreaRect.height - 100);
             const left = Math.random() * (gameAreaRect.width - 100);
             item.style.top = `${top}px`;
             item.style.left = `${left}px`;
+ 
             gameArea.appendChild(item);
+ 
             item.addEventListener('click', () => {
                 item.remove();
                 updateScore(100);
                 updateHits();
                 playClickSound();
             });
+ 
             const itemTimeout = setTimeout(() => {
                 if (gameArea.contains(item)) {
                     item.remove();
@@ -149,10 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }, removeTime);
             activeItemTimeouts.push(itemTimeout);
         }
+ 
         function updateScore(points) {
             score += points;
             scoreValue.textContent = score;
         }
+ 
         function updateHits() {
             hits++;
             hitsValue.textContent = hits;
@@ -167,8 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
             removeTime = Math.max(500, removeTime - 100);
             clearInterval(gameInterval);
             gameInterval = setInterval(createGameItem, speed);
+ 
             alert(`Parabéns! Você alcançou o Nível ${level}! A velocidade irá aumentar.`);
         }
+ 
         function updateDisplay() {
             scoreValue.textContent = score;
             levelValue.textContent = level;
@@ -181,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 pauseGame();
             }
         });
+ 
         resetGameButton.addEventListener('click', resetGame);
     }
 });
