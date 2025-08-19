@@ -1,4 +1,3 @@
-// Arquivo: js/game.js
 document.addEventListener('DOMContentLoaded', () => {
     // Apenas inicializa a lógica do jogo se estivermos na página do dashboard
     if (document.getElementById('gameArea')) {
@@ -12,7 +11,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const resetGameButton = document.getElementById('resetGameButton');
         const gameInstructions = document.querySelector('.game-instructions');
         // --- Pool de sons de clique ---
-        const clickSoundPool = Array.from({ length: 5 }, () => new Audio('click.mp3'));
+        const clickSoundPool = Array.from({ length: 5 }, () => {
+            const audio = new Audio('click.mp3');
+            audio.preload = 'auto';
+            return audio;
+        });
+        // Pré-carrega os sons (elimina delay no primeiro clique)
+        function preloadClickSounds() {
+            clickSoundPool.forEach(sound => {
+                sound.volume = 0; // silencia para não incomodar
+                sound.play().then(() => {
+                    sound.pause();
+                    sound.currentTime = 0;
+                    sound.volume = 1; // restaura volume
+                }).catch(() => {
+                    // Falha antes da interação é normal, ignora
+                });
+            });
+        }
         function playClickSound() {
             const sound = clickSoundPool.find(s => s.paused);
             if (sound) {
@@ -38,11 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Funções do Jogo ---
         function startGame() {
             if (!isPaused) return;
+            // Pré-carrega sons no início do jogo
+            preloadClickSounds();
             isPaused = false;
             gameInstructions.style.display = 'none';
             toggleGameButton.textContent = 'Pausar Jogo';
             resetGameButton.style.display = 'inline-block';
-            // Pré-carregar áudio forçando o navegador a decodificar
+            // Força o navegador a liberar o áudio na primeira interação
             clickSoundPool[0].play().then(() => {
                 clickSoundPool[0].pause();
                 clickSoundPool[0].currentTime = 0;
