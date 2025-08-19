@@ -1,306 +1,305 @@
 /* Estilos Gerais */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    background-color: #f0f2f5;
-    color: #333;
+  background-color: #f0f2f5;
+  color: #333;
 }
 
 .dashboard-container {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
 /* Barra Lateral (Desktop) */
 .sidebar {
-    width: 250px;
-    background-color: #727d88; /* Azul Senac */
-    color: #fff;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+  width: 250px;
+  background-color: #727d88; /* Azul Senac */
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
 .senac-logo {
-    width: 80px;
-    margin-bottom: 10px;
+  width: 80px;
+  margin-bottom: 10px;
 }
 
 .sidebar h2 {
-    font-size: 24px;
-    margin-bottom: 30px;
-    text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 .sidebar-button {
-    text-decoration: none;
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 15px 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    transition: background-color 0.2s;
+  text-decoration: none;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.2s;
 }
 
 .sidebar-button:hover,
 .sidebar-button.active {
-    background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Conteúdo Principal */
 .main-content {
-    flex-grow: 1;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
+  flex-grow: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .header-title {
-    font-size: 28px;
-    color: #333;
+  font-size: 28px;
+  color: #333;
 }
 
 .user-info {
-    font-size: 16px;
-    font-weight: bold;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .logout-button {
-    margin-left: 10px;
-    text-decoration: none;
-    color: #e74c3c;
-    font-weight: bold;
+  margin-left: 10px;
+  text-decoration: none;
+  color: #e74c3c;
+  font-weight: bold;
 }
 
 /* Esconde o botão de menu Hambúrguer por padrão em desktop */
 .hamburger-menu {
-    display: none;
+  display: none;
 }
 
 /* Cards de Informação - Dashboard */
 .info-cards {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: nowrap;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: nowrap;
+  margin-bottom: 30px;
 }
 
 .info-card {
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-grow: 1;
-    text-align: left;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+  text-align: left;
 }
 
 .info-card .icon-container {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .card-title {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 5px;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 5px;
 }
 
 .card-value {
-    font-size: 24px;
-    font-weight: bold;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 /* Seções da página de perfil */
 .profile-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 .profile-card {
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 /* CORRIGIDO: Os cards de estatísticas do jogo ficam lado a lado em desktop */
 .game-stats-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
 }
 
 .profile-card h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 .profile-card p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
 }
-
 
 /* ----------------------------------------------------------------- */
 /* Estilos para Celulares (Media Query) */
 /* ----------------------------------------------------------------- */
 @media (max-width: 767px) {
-    /* Container que alinha o menu e o cabeçalho */
-    .main-header-wrapper {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 20px;
-    }
+  /* Container que alinha o menu e o cabeçalho */
+  .main-header-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-    /* Ajuste para o botão Hambúrguer */
-    .hamburger-menu {
-        display: block;
-        background: transparent;
-        border: none;
-        font-size: 28px;
-        color: #333;
-        cursor: pointer;
-    }
-    
-    /* Ajuste do cabeçalho */
-    .dashboard-header {
-        flex-grow: 1;
-        margin-left: 20px;
-    }
-    
-    /* Oculta o título "Senac" da barra lateral */
-    .sidebar h2 {
-        display: none;
-    }
+  /* Ajuste para o botão Hambúrguer */
+  .hamburger-menu {
+    display: block;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+  }
 
-    /* Configura a barra lateral para ficar oculta */
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 250px;
-        height: 100%;
-        z-index: 999;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 60px;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
-    }
+  /* Ajuste do cabeçalho */
+  .dashboard-header {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
 
-    .sidebar.active {
-        transform: translateX(0);
-    }
+  /* Oculta o título "Senac" da barra lateral */
+  .sidebar h2 {
+    display: none;
+  }
 
-    /* Faz o conteúdo principal ocupar toda a tela */
-    .main-content {
-        flex-grow: 1;
-        width: 100%;
-        margin-left: 0;
-        padding: 20px;
-    }
-    
-    /* Layout dos cards de informação do Dashboard em mobile */
-    .info-cards {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        gap: 10px;
-    }
+  /* Configura a barra lateral para ficar oculta */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    z-index: 999;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 60px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
 
-    .info-card {
-        width: 30%;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px;
-        font-size: 10px;
-    }
-    
-    .info-card h3 {
-        font-size: 12px;
-    }
+  .sidebar.active {
+    transform: translateX(0);
+  }
 
-    .info-card .icon-container {
-        font-size: 20px;
-    }
-    
-    /* Layout dos cards de estatísticas do jogo em mobile (PERFIL) */
-    .profile-details {
-        flex-direction: column;
-        gap: 15px;
-    }
+  /* Faz o conteúdo principal ocupar toda a tela */
+  .main-content {
+    flex-grow: 1;
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
 
-    .game-stats-cards {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        gap: 10px;
-        width: 100%;
-        flex-wrap: wrap;
-    }
+  /* Layout dos cards de informação do Dashboard em mobile */
+  .info-cards {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    gap: 10px;
+  }
 
-    .game-stats-cards .info-card {
-        width: calc(50% - 5px);
-        flex-grow: 0;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px;
-        font-size: 10px;
-    }
+  .info-card {
+    width: 30%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    font-size: 10px;
+  }
 
-    .game-stats-cards .info-card h3 {
-        font-size: 12px;
-    }
+  .info-card h3 {
+    font-size: 12px;
+  }
 
-    .game-stats-cards .info-card .icon-container {
-        font-size: 20px;
-    }
-    
-    .profile-card {
-        padding: 15px;
-    }
+  .info-card .icon-container {
+    font-size: 20px;
+  }
 
-    .profile-card h3 {
-        font-size: 18px;
-    }
+  /* Layout dos cards de estatísticas do jogo em mobile (PERFIL) */
+  .profile-details {
+    flex-direction: column;
+    gap: 15px;
+  }
 
-    .profile-card p {
-        font-size: 14px;
-    }
+  .game-stats-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .game-stats-cards .info-card {
+    width: calc(50% - 5px);
+    flex-grow: 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    font-size: 10px;
+  }
+
+  .game-stats-cards .info-card h3 {
+    font-size: 12px;
+  }
+
+  .game-stats-cards .info-card .icon-container {
+    font-size: 20px;
+  }
+
+  .profile-card {
+    padding: 15px;
+  }
+
+  .profile-card h3 {
+    font-size: 18px;
+  }
+
+  .profile-card p {
+    font-size: 14px;
+  }
 }
