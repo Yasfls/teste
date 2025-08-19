@@ -1,8 +1,8 @@
+// Arquivo: js/game.js
 document.addEventListener('DOMContentLoaded', () => {
     // Apenas inicializa a lógica do jogo se estivermos na página do dashboard
     if (document.getElementById('gameArea')) {
         console.log("Dashboard carregado. Inicializando o jogo...");
- 
         // --- Variáveis Globais do Jogo ---
         const gameArea = document.getElementById('gameArea');
         const scoreValue = document.getElementById('scoreValue');
@@ -11,42 +11,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const toggleGameButton = document.getElementById('toggleGameButton');
         const resetGameButton = document.getElementById('resetGameButton');
         const gameInstructions = document.querySelector('.game-instructions');
-        // Crie o objeto de som do clique
-        const clickSound = new Audio('click.mp3');
-        clickSound.preload = 'auto'; // Tenta pré-carregar o som
-        // Crie a música de fundo
+        // --- Pool de sons de clique ---
+        const clickSoundPool = Array.from({ length: 5 }, () => new Audio('click.mp3'));
+        function playClickSound() {
+            const sound = clickSoundPool.find(s => s.paused);
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(e => console.error("Erro ao tocar o som do clique:", e));
+            }
+        }
+        // Música de fundo
         const backgroundMusic = new Audio('background_music.mp3');
-        backgroundMusic.loop = true; // Faz a música tocar em loop
-        backgroundMusic.volume = 0.5; // Ajusta o volume (opcional)
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.5;
         let score = 0;
         let level = 1;
         let hits = 0;
-        let speed = 1500; // Tempo inicial para um novo item aparecer (em milissegundos)
-        let removeTime = 1000; // Tempo para o item desaparecer (em milissegundos)
+        let speed = 1500; 
+        let removeTime = 1000;
         let gameInterval;
-        let isPaused = true; // Começa como pausado, esperando o clique do usuário
-        // Armazena todos os timeouts para que possam ser cancelados
+        let isPaused = true; 
         let activeItemTimeouts = [];
-        // Tipos de itens que aparecerão no jogo (devem corresponder às classes CSS)
         const itemTypes = ['caneta', 'calculadora', 'notebook', 'livro', 'mochila', 'tablet'];
-        const itemsToWin = 10; // Número de itens para passar de nível
- 
-        // Adiciona um evento para quando a página for fechada ou recarregada
+        const itemsToWin = 10; 
         window.addEventListener('beforeunload', saveGameData);
- 
         // --- Funções do Jogo ---
- 
-        // Função principal que inicia ou retoma o jogo
         function startGame() {
             if (!isPaused) return;
             isPaused = false;
             gameInstructions.style.display = 'none';
             toggleGameButton.textContent = 'Pausar Jogo';
             resetGameButton.style.display = 'inline-block';
-            // Toca e pausa o som do clique no primeiro clique do usuário.
-            // Isso força o navegador a decodificar o áudio.
-            clickSound.play().then(() => {
-                clickSound.pause();
+            // Pré-carregar áudio forçando o navegador a decodificar
+            clickSoundPool[0].play().then(() => {
+                clickSoundPool[0].pause();
+                clickSoundPool[0].currentTime = 0;
                 backgroundMusic.play().catch(e => console.error("Erro ao tocar a música de fundo:", e));
             }).catch(e => console.error("O som do clique não pôde ser pré-carregado."));
             incrementTotalGames();
@@ -54,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDisplay();
             gameInterval = setInterval(createGameItem, speed);
         }
- 
-        // Função para pausar o jogo
         function pauseGame() {
             if (isPaused) return;
             isPaused = true;
@@ -65,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundMusic.pause();
             saveGameData();
         }
- 
-        // Função para reiniciar o jogo
         function resetGame() {
             pauseGame();
             clearAllItems();
@@ -86,91 +81,60 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundMusic.currentTime = 0;
             updateDisplay();
         }
-        // Limpa todos os itens da tela e seus timeouts
         function clearAllItems() {
             gameArea.innerHTML = '';
             activeItemTimeouts.forEach(timeout => clearTimeout(timeout));
             activeItemTimeouts = [];
         }
- 
-        // Carrega os dados salvos no localStorage
         function loadGameData() {
             const savedScore = localStorage.getItem('senacDash_currentScore');
             const savedLevel = localStorage.getItem('senacDash_currentLevel');
             const savedHits = localStorage.getItem('senacDash_currentHits');
- 
-            if (savedScore) {
-                score = parseInt(savedScore);
-            }
-            if (savedLevel) {
-                level = parseInt(savedLevel);
-            }
-            if (savedHits) {
-                hits = parseInt(savedHits);
-            }
+            if (savedScore) score = parseInt(savedScore);
+            if (savedLevel) level = parseInt(savedLevel);
+            if (savedHits) hits = parseInt(savedHits);
         }
- 
-        // Salva a pontuação, o nível e a quantidade de acertos
         function saveGameData() {
             localStorage.setItem('senacDash_currentScore', score);
             localStorage.setItem('senacDash_currentLevel', level);
             localStorage.setItem('senacDash_currentHits', hits);
-            // Salva a maior pontuação (High Score)
             const highScore = localStorage.getItem('senacDash_highScore') || 0;
             if (score > parseInt(highScore)) {
                 localStorage.setItem('senacDash_highScore', score);
             }
         }
-        // Função para incrementar o total de jogos jogados
         function incrementTotalGames() {
             let totalGames = localStorage.getItem('senacDash_totalGames') || 0;
             totalGames = parseInt(totalGames) + 1;
             localStorage.setItem('senacDash_totalGames', totalGames);
         }
- 
-        // Cria um novo item na tela
         function createGameItem() {
             const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
             const item = document.createElement('div');
             item.className = `game-item item-${randomItemType}`;
- 
-            // Define a posição aleatória do item
             const gameAreaRect = gameArea.getBoundingClientRect();
             const top = Math.random() * (gameAreaRect.height - 100);
             const left = Math.random() * (gameAreaRect.width - 100);
             item.style.top = `${top}px`;
             item.style.left = `${left}px`;
- 
-            // Adiciona o item à área do jogo
             gameArea.appendChild(item);
- 
-            // Adiciona o evento de clique ao item
             item.addEventListener('click', () => {
                 item.remove();
                 updateScore(100);
                 updateHits();
-                // Toca o som do clique, agora que ele já foi pré-carregado no início do jogo.
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.error("Erro ao tocar o som do clique:", e));
+                playClickSound();
             });
- 
-            // Remove o item automaticamente após 'removeTime' segundos, se não for clicado
             const itemTimeout = setTimeout(() => {
                 if (gameArea.contains(item)) {
                     item.remove();
                 }
             }, removeTime);
-            // Armazena o ID do timeout para poder cancelá-lo depois
             activeItemTimeouts.push(itemTimeout);
         }
- 
-        // Atualiza a pontuação do jogador
         function updateScore(points) {
             score += points;
             scoreValue.textContent = score;
         }
- 
-        // Atualiza o contador de acertos
         function updateHits() {
             hits++;
             hitsValue.textContent = hits;
@@ -178,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 levelUp();
             }
         }
-        // Aumenta o nível e a dificuldade do jogo
         function levelUp() {
             level++;
             levelValue.textContent = level;
@@ -186,17 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
             removeTime = Math.max(500, removeTime - 100);
             clearInterval(gameInterval);
             gameInterval = setInterval(createGameItem, speed);
- 
             alert(`Parabéns! Você alcançou o Nível ${level}! A velocidade irá aumentar.`);
         }
- 
-        // Atualiza os indicadores na tela
         function updateDisplay() {
             scoreValue.textContent = score;
             levelValue.textContent = level;
             hitsValue.textContent = hits;
         }
-        // Adiciona os event listeners para os botões
         toggleGameButton.addEventListener('click', () => {
             if (isPaused) {
                 startGame();
@@ -204,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 pauseGame();
             }
         });
- 
         resetGameButton.addEventListener('click', resetGame);
     }
 });
