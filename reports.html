@@ -1,66 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Senac Dash - Relatórios</title>
-    <link rel="stylesheet" href="main.css" />
-  </head>
-  <body>
-    <div class="app-container">
-      <aside class="sidebar">
-        <div class="sidebar-logo">
-          <img src="senac-logo.png" alt="Logo Senac" />
-        </div>
-        <nav class="sidebar-nav">
-          <ul>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="reports.html" class="active">Relatórios</a></li>
-          </ul>
-        </nav>
-      </aside>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Senac Dash - Relatórios</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <div class="sidebar">
+        <a href="#" class="logo-link">
+          <img src="senac-logo.png" alt="Logo Senac" class="senac-logo" />
+        </a>
+        <h2>Dashboard</h2>
+        <div class="sidebar-menu">
+          <a href="dashboard.html" class="sidebar-button">Início</a>
+          <a href="reports.html" class="sidebar-button active">Relatórios</a>
+          <a href="profile.html" class="sidebar-button">Perfil</a>
+          <a href="login.html" class="sidebar-button">Sair</a>
+        </div>
+      </div>
 
-      <main class="main-content">
-        <header class="main-header">
-          <h1 class="page-title">Relatórios</h1>
-          <div class="user-info">
-            <span id="userName">Nome do Usuário</span>
-            <button id="logoutBtn" class="logout-btn">Sair</button>
-          </div>
-        </header>
+      <div class="main-content">
+        <div class="main-header-wrapper">
+          <button class="hamburger-menu" id="toggleSidebar">☰</button>
+          <header class="dashboard-header">
+            <h1 class="header-title">Relatórios</h1>
+            <div class="user-info">
+              <span id="userNameDisplay">Usuário</span>
+              <a href="login.html" class="logout-button">Sair</a>
+            </div>
+          </header>
+        </div>
 
-        <section class="reports-section">
-          <div class="search-container">
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Filtrar por data, pontuação..."
-              aria-label="Pesquisar relatório"
-            />
-          </div>
+        <section class="reports-section">
+          <div class="search-container">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Filtrar por data, pontuação..."
+              aria-label="Pesquisar relatório"
+            />
+          </div>
 
-          <div class="table-container">
-            <table id="reportsTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>Data do Jogo</th>
-                  <th>Pontuação Final</th>
-                  <th>Tempo de Jogo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="3">Carregando dados...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </main>
-    </div>
+          <div class="table-container">
+            <table id="reportsTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Data do Jogo</th>
+                  <th>Pontuação Final</th>
+                  <th>Tempo de Jogo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="3">Carregando dados...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
 
-    <script src="app.js"></script>
-    <script src="user.js"></script>
-    <script src="reports.js"></script>
-  </body>
+    <script src="dashboard.js"></script>
+    <script src="app.js"></script>
+    <script src="reports.js"></script>
+  </body>
 </html>

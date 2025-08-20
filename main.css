@@ -303,3 +303,75 @@ body {
     font-size: 14px;
   }
 }
+/* reports.html */
+/* Estilos para a seção de relatórios */
+.reports-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+/* Estilos para a barra de pesquisa */
+.search-container {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* Estilos para o container da tabela */
+.table-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Garante que a borda da tabela fique arredondada */
+}
+
+/* Estilos para a tabela */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.data-table th, .data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table thead {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.data-table td:first-child {
+    font-weight: bold;
+}
+
+@media (max-width: 767px) {
+    .reports-section {
+        padding: 10px;
+    }
+    .table-container {
+        overflow-x: auto;
+    }
+    .data-table {
+        min-width: 600px; /* Garante que a tabela não fique espremida */
+    }
+}
