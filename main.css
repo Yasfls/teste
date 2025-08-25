@@ -374,4 +374,23 @@ body {
     .data-table {
         min-width: 600px; /* Garante que a tabela não fique espremida */
     }
+    .hamburger-menu {
+    display: block;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+    
+    /* Regras para fixar o botão na tela */
+    position: fixed; /* 'Fixa' o botão na tela, ele não rola com o conteúdo */
+    top: 20px;       /* Posição no topo, 20px de distância */
+    left: 20px;      /* Posição na esquerda, 20px de distância */
+    z-index: 1000;   /* Garante que ele fique acima de todos os outros elementos */
+  }
+  
+  /* Adicional: Garante que o conteúdo não se sobreponha ao botão fixo */
+  .main-header-wrapper {
+      padding-left: 50px;
+  }
 }

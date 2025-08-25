@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (toggleButton && sidebar) {
     toggleButton.addEventListener("click", () => {
       sidebar.classList.toggle("active");
+      toggleButton.classList.toggle("active"); // Adiciona ou remove a classe 'active' do botão
     });
   }
 
