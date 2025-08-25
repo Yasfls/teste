@@ -60,7 +60,7 @@
 }
 /* Estilos para o botão de Iniciar Jogo */
 .start-button {
-  background-color: #007bff; /* Cor de destaque */
+  background-color: #005495; /* Cor de destaque */
   color: white;
   padding: 15px 30px;
   border: none;
@@ -71,7 +71,7 @@
 }
 
 .start-button:hover {
-  background-color: #0056b3; /* Cor mais escura no hover */
+  background-color: #2779b8; /* Cor mais escura no hover */
 }
 .game-controls {
   display: flex;
